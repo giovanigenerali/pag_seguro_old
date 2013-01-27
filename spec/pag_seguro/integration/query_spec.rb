@@ -19,6 +19,7 @@ describe PagSeguro::Query do
   it { @query.id.should be_present }
   it { @query.type.should be_present }
   it { @query.status.should be_present }
+  it { @query.last_event_date.should be_present }
   it { @query.payment_method.type.should be_present }
   it { @query.payment_method.code.should be_present }
   it { @query.gross_amount.should be_present }

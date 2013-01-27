@@ -66,7 +66,15 @@ shared_examples_for "a transaction" do
     transaction.date.month.should == 2
     transaction.date.day.should == 10
   end
-  
+
+  it "should have a last event date" do
+    transaction.last_event_date.should be_present
+    transaction.last_event_date.should be_an_instance_of(DateTime)
+    transaction.last_event_date.year.should == 2011
+    transaction.last_event_date.month.should == 2
+    transaction.last_event_date.day.should == 10
+  end
+
   it "should have a shipping" do
     @shipping = transaction.shipping
     @shipping.type.should == 1

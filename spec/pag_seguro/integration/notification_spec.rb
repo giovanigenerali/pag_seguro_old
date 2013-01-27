@@ -19,6 +19,7 @@ describe PagSeguro::Notification do
   it { @notification.id.should be_present }
   it { @notification.type.should be_present }
   it { @notification.status.should be_present }
+  it { @notification.last_event_date.should be_present }
   it { @notification.payment_method.type.should be_present }
   it { @notification.payment_method.code.should be_present }
   it { @notification.gross_amount.should be_present }
