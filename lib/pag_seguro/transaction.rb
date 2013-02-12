@@ -82,6 +82,10 @@ module PagSeguro
     def last_event_date
       DateTime.iso8601( @data.css("lastEventDate").first.content )
     end
+
+    def escrow_end_date
+      DateTime.iso8601( @data.css("escrowEndDate").first.content )
+    end
   
     def items
       @data.css("items item").map do |i|

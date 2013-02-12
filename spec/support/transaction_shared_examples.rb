@@ -75,6 +75,14 @@ shared_examples_for "a transaction" do
     transaction.last_event_date.day.should == 10
   end
 
+  it "should have a escrow end date" do
+    transaction.escrow_end_date.should be_present
+    transaction.escrow_end_date.should be_an_instance_of(DateTime)
+    transaction.escrow_end_date.year.should == 2011
+    transaction.escrow_end_date.month.should == 2
+    transaction.escrow_end_date.day.should == 25
+  end
+
   it "should have a shipping" do
     @shipping = transaction.shipping
     @shipping.type.should == 1
