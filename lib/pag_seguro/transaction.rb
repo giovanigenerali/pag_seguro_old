@@ -84,7 +84,9 @@ module PagSeguro
     end
 
     def escrow_end_date
-      DateTime.iso8601( @data.parse_css("escrowEndDate") )
+      if @data.css("escrowEndDate").present?
+        DateTime.iso8601( @data.css("escrowEndDate").first.content )
+      end
     end
   
     def items
