@@ -10,7 +10,8 @@
   <paymentMethod>  
     <type>1</type>  
     <code>101</code>  
-  </paymentMethod>  
+  </paymentMethod>
+  <paymentLink>https://pagseguro.uol.com.br/checkout/imprimeBoleto.jhtml?code=E6552E0CDB0C47CCB1FED62F4D66DC40</paymentLink>
   <grossAmount>49900.00</grossAmount>  
   <discountAmount>0.00</discountAmount>  
   <feeAmount>0.00</feeAmount>  

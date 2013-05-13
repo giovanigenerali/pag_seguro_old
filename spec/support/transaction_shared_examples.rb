@@ -83,6 +83,10 @@ shared_examples_for "a transaction" do
     transaction.escrow_end_date.day.should == 25
   end
 
+  it "should have a payment link" do
+    transaction.payment_link.should == "https://pagseguro.uol.com.br/checkout/imprimeBoleto.jhtml?code=E6552E0CDB0C47CCB1FED62F4D66DC40"
+  end
+
   it "should have a shipping" do
     @shipping = transaction.shipping
     @shipping.type.should == 1
