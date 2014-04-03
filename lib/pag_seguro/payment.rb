@@ -3,26 +3,32 @@ module PagSeguro
     include ActiveModel::Validations
     extend PagSeguro::ConvertFieldToDigit
 
+    CHECKOUT_URL = "https://ws.pagseguro.uol.com.br/v2/checkout"
+
     attr_accessor :id, :email, :token, :items, :sender, :shipping,
-                  :extra_amount, :redirect_url, :max_uses, :max_age,
+                  :extra_amount, :redirect_url, :notification_url, :max_uses, :max_age,
                   :response, :pre_approval
+    alias :reference  :id
+    alias :reference= :id=
 
     attr_reader_as_digit :extra_amount
 
     validates_presence_of :email, :token
     validates :extra_amount, pagseguro_decimal: true
     validates_format_of :redirect_url, with: URI::regexp(%w(http https)), message: " must give a correct url for redirection", allow_blank: true
+    validates_format_of :notification_url, with: URI::regexp(%w(http https)), message: " must give a correct url for notification", allow_blank: true
     validate :max_uses_number, :max_age_number, :valid_pre_approval, :valid_items
 
     def initialize(email = nil, token = nil, options = {})
       @email        = email unless email.nil?
       @token        = token unless token.nil?
-      @id           = options[:id]
+      @id           = options[:id] || options[:reference]
       @sender       = options[:sender] || Sender.new
       @shipping     = options[:shipping]
       @items        = options[:items] || []
       @extra_amount = options[:extra_amount]
       @redirect_url = options[:redirect_url]
+      @notification_url  = options[:notification_url]
       @max_uses     = options[:max_uses]
       @max_age      = options[:max_age]
       @pre_approval = options[:pre_approval]
@@ -42,10 +48,6 @@ module PagSeguro
                          sender: @sender,
                          shipping: @shipping,
                          pre_approval: @pre_approval
-    end
-
-    def checkout_url_with_params
-      "https://ws.pagseguro.uol.com.br/v2/checkout?email=#{@email}&token=#{@token}"
     end
 
     def checkout_payment_url
@@ -92,7 +94,10 @@ module PagSeguro
       end
 
       def send_checkout
-        RestClient.post(checkout_url_with_params, checkout_xml, content_type: "application/xml"){|resp, request, result| resp }
+        params = { email: @email, token: @token }
+        RestClient.post(CHECKOUT_URL, checkout_xml,
+          params: params,
+          content_type: "application/xml"){|resp, request, result| resp }
       end
 
       def parse_checkout_response
