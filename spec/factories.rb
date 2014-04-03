@@ -82,7 +82,7 @@ FactoryGirl.define do
 
   factory :minimum_pre_approval, class: PagSeguro::PreApproval do
     name                  "Super seguro para notebook"
-    final_date            Date.new(2014, 1, 17)
+    final_date            Date.new(2015, 10, 17)
     max_amount_per_period BigDecimal.new('200.00')
     max_total_amount      BigDecimal.new('900.00')
     period                :weekly
